@@ -6,8 +6,8 @@ export class GravityNode {
 
   public lockPosition = false;
 
-  public tail = new RingBuffer<Vector>(25);
-  public tailPushTime = 3;
+  public tail = new RingBuffer<Vector>(55);
+  public tailPushTime = 1;
   private tailPrimer = 0;
 
   constructor(
