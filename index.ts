@@ -66,7 +66,7 @@ const inputCreator: { [key: string]: InputCreator } = {
     string(elem, changeListener, config, name) {
         elem.value = '' + config[name];
         elem.addEventListener('change', () => {
-            config[name] = elem.value;
+            (config as any)[name] = elem.value;
             changeListener(name, elem.value);
         })
     }
