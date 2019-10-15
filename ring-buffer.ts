@@ -1,58 +1,3 @@
-/**
- * This seems to be rather difficult, but it only enables one to access the RingBuffer like
- * an array and to promote the length attribute
- */
-
-// const isInNumberRange = (v: any, start: number, end: number) =>
-//     (v | 0) === v
-//     && v >= start
-//     && v < end;
-
-// const RingBufferIterableHelper: ProxyHandler<RingBuffer<any>> = {
-//     set(target, key, value, receiver) {
-//         if (typeof key == 'string') {
-//             const castValue = +key;
-
-//             if (isInNumberRange(castValue, 0, target.fillLength))
-//                 return target.set(castValue, value);
-//         }
-
-//         return Reflect.set(target, key, value, receiver);
-//     },
-//     get(target, key, receiver) {
-//         if (typeof key == 'string') {
-//             const castValue = +key;
-
-//             if (isInNumberRange(castValue, 0, target.fillLength))
-//                 return target.get(castValue);
-//         }
-
-//         return Reflect.get(target, key, receiver);
-//     },
-//     getOwnPropertyDescriptor(target, key) {
-//         if (typeof key == 'string') {
-//             const castValue = +key;
-
-//             if (isInNumberRange(castValue, 0, target.fillLength))
-//                 return {
-//                     configurable: true,
-//                     enumerable: true,
-//                     writable: true,
-//                     value: target.get(castValue)
-//                 };
-//         }
-
-//         return Reflect.getOwnPropertyDescriptor(target, key);
-//     },
-//     ownKeys(target) {
-//         const extra = ['fillLength'];
-//         for (let i = 0; i < target.fillLength; i++)
-//             extra.push('' + i);
-
-//         return Reflect.ownKeys(target).concat(extra);
-//     }
-// }
-
 export class RingBuffer<T>{
     private readonly buffer: T[];
 
@@ -60,16 +5,9 @@ export class RingBuffer<T>{
 
     public fillLength = 0;
 
-    constructor(public readonly bufferLength: number
-        // , enableArrayAccess = false
-    ) {
+    constructor(public readonly bufferLength: number) {
         this.buffer = new Array(bufferLength);
-
-        // if (enableArrayAccess)
-        //     return new Proxy(this, RingBufferIterableHelper);
     }
-
-    // [key: number]: T
 
     push(value: T) {
         this.buffer[this.endPointer] = value;
