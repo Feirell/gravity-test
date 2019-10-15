@@ -2,14 +2,16 @@ import { GravityNode } from "./gravity-node.js";
 
 function asymptoticalReachOne(v: number) {
     if (!Number.isFinite(v) || v < 0)
-        throw new Error(
-            "The given value needs to a number equal or greater than zero but was " +
-            v +
-            " (" +
-            typeof v +
-            ")"
-        );
+        throw new Error("The given value needs to a number equal or greater than zero but was " + v + " (" + typeof v + ")");
+
     return 1 - 1 / (v + 1);
+}
+
+function applyGravityNodeOnSVGPathNode(gn: GravityNode, path: SVGPolylineElement) {
+    const points = Array.from(gn.tail).map(v => v.x + ',' + v.y).join(' ');
+    path.setAttribute("points", "" + points);
+    path.setAttribute("fill", "none");
+    path.setAttribute("stroke", "hsl(30, 50%, 20%)");
 }
 
 function applyGravityNodeOnSVGCircleNode(gn: GravityNode, circle: SVGCircleElement) {
@@ -22,8 +24,13 @@ function applyGravityNodeOnSVGCircleNode(gn: GravityNode, circle: SVGCircleEleme
     circle.setAttribute("fill", "hsl(30, 50%, " + darkness * 50 + "%)");
 }
 
+interface AssociatedElements {
+    circle: SVGCircleElement,
+    polyline: SVGPolylineElement
+}
+
 export class GravityEnvironment {
-    private nodes = new Map<GravityNode, SVGCircleElement>();
+    private nodes = new Map<GravityNode, AssociatedElements>();
 
     constructor(private readonly svgElem: SVGElement) { }
 
@@ -33,8 +40,11 @@ export class GravityEnvironment {
     }
 
     append(node: GravityNode) {
-        const correspondingElement = this.addNewCircle(node);
-        this.nodes.set(node, correspondingElement);
+        this.nodes.set(node, {
+            circle: this.addNewCircle(node),
+            polyline: this.addNewTail(node)
+        });
+
         return this.allNodes;
     }
 
@@ -46,6 +56,16 @@ export class GravityEnvironment {
         this.svgElem.appendChild(circle);
 
         return circle;
+    }
+
+    private addNewTail(gravityNode: GravityNode) {
+        const tail = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+
+        applyGravityNodeOnSVGPathNode(gravityNode, tail);
+
+        this.svgElem.appendChild(tail);
+
+        return tail;
     }
 
     get allNodes() {
@@ -71,7 +91,9 @@ export class GravityEnvironment {
     }
 
     applyGNPropertiesToCircle() {
-        for (const [gn, circle] of this.nodes.entries())
+        for (const [gn, { polyline, circle }] of this.nodes.entries()) {
             applyGravityNodeOnSVGCircleNode(gn, circle);
+            applyGravityNodeOnSVGPathNode(gn, polyline);
+        }
     }
 }

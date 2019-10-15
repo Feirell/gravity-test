@@ -1,4 +1,3 @@
-import { RingBuffer } from "./ring-buffer.js";
 import { GravityNode } from "./gravity-node.js";
 import { GravityEnvironment } from "./gravity-environment.js";
 import { Vector } from "./vector.js";

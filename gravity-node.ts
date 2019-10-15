@@ -1,9 +1,14 @@
 import { getVectorFromTwoPoints } from "./util.js";
 import { Vector } from "./vector.js";
+import { RingBuffer } from "./ring-buffer.js";
 
 export class GravityNode {
 
   public lockPosition = false;
+
+  public tail = new RingBuffer<Vector>(25);
+  public tailPushTime = 3;
+  private tailPrimer = 0;
 
   constructor(
     public position: Vector,
@@ -55,6 +60,9 @@ export class GravityNode {
     this.position = this.velocity
       .multiplyByN(timeDelta)
       .addVector(this.position);
+
+    if (this.tailPrimer++ % this.tailPushTime == 0)
+      this.tail.push(this.position);
   }
 
   public getForceVectorsForNode(otherNodes: GravityNode[]) {
