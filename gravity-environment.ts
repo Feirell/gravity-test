@@ -27,6 +27,11 @@ export class GravityEnvironment {
 
     constructor(private readonly svgElem: SVGElement) { }
 
+    clearNodes() {
+        this.svgElem.innerHTML = "";
+        this.nodes = new Map();
+    }
+
     append(node: GravityNode) {
         const correspondingElement = this.addNewCircle(node);
         this.nodes.set(node, correspondingElement);
