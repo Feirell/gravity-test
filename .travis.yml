@@ -1,8 +1,10 @@
 language: node_js
+node_js:
+  - 10
 install:
-  - npm i
+  - yarn i
 script:
-  - npm run build-gh-pages
+  - yarn build-gh-pages
 deploy:
   provider: pages
   skip_cleanup: true
