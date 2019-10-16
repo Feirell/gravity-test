@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build-gh-pages": "mkdir build && cp index.html build && cp base.css build && tsc -p tsconfig-fh-pages.json"
+    "build-gh-pages": "mkdir build && cp index.html build && cp base.css build && tsc -p tsconfig-gh-pages.json"
   },
   "dependencies": {
     "typescript": "^3.6.4"
