@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "tsc -w",
     "build-gh-pages": "mkdir build && cp index.html build && cp base.css build && tsc -p tsconfig-gh-pages.json"
   },
   "dependencies": {
