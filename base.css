@@ -14,7 +14,6 @@ body {
 
 svg,
 form {
-  border: 1px solid rgb(240, 240, 240);
   border-radius: 2px;
 
   margin: 5px;
@@ -39,4 +38,47 @@ form > div > :first-child {
 
 /* output{
     white-space: pre;
+} */
+
+svg,
+form {
+  border: 1px solid rgb(240, 240, 240);
+  background-color: rgb(245, 245, 245);
+}
+
+svg circle {
+  fill: rgb(50, 50, 50);
+}
+
+svg polyline {
+  stroke: rgb(50, 50, 50);
+}
+
+/* @media (prefers-color-scheme: dark), (prefers-color-scheme: no-preference) {
+  html {
+    background-color: rgb(28, 28, 28);
+  }
+
+  svg,
+  form {
+    border: 1px solid rgb(55, 55, 55);
+    background-color: rgb(40, 40, 40);
+  }
+
+  svg circle {
+    fill: rgb(90, 90, 90);
+  }
+
+  svg polyline {
+    stroke: rgb(90, 90, 90);
+  }
+
+  body {
+    color: rgb(240, 240, 240);
+  }
+
+  input {
+    color: rgb(240, 240, 240);
+    background-color: rgb(28, 28, 28);
+  }
 } */
