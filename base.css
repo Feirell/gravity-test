@@ -54,7 +54,7 @@ svg polyline {
   stroke: rgb(50, 50, 50);
 }
 
-/* @media (prefers-color-scheme: dark), (prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: dark), (prefers-color-scheme: no-preference) {
   html {
     background-color: rgb(28, 28, 28);
   }
@@ -81,4 +81,4 @@ svg polyline {
     color: rgb(240, 240, 240);
     background-color: rgb(28, 28, 28);
   }
-} */
+}
