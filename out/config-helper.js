@@ -19,10 +19,7 @@ const inputCreator = {
         });
     }
 };
-export function createConfigInterface(config, changeListener) {
-    const form = document.getElementsByTagName('form')[0];
-    if (!form)
-        return;
+export function createConfigInterface(form, config, changeListener) {
     let configEntry;
     for (configEntry in config) {
         const entry = config[configEntry];

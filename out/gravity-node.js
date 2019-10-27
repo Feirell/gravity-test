@@ -9,8 +9,8 @@ export class GravityNode {
         this.velocity = velocity;
         this.acceleration = acceleration;
         this.lockPosition = false;
-        this.tail = new RingBuffer(55);
-        this.tailPushTime = 1;
+        this.tail = new RingBuffer(250);
+        this.tailPushTime = 3;
         this.tailPrimer = 0;
     }
     get mass() {

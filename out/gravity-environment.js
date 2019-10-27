@@ -7,14 +7,14 @@ function applyGravityNodeOnSVGPathNode(gn, path) {
     const points = Array.from(gn.tail).map(v => v.x + ',' + v.y).join(' ');
     path.setAttribute("points", "" + points);
     path.setAttribute("fill", "none");
-    path.setAttribute("stroke", "hsl(30, 50%, 20%)");
+    // path.setAttribute("stroke", "hsl(30, 50%, 20%)");
 }
 function applyGravityNodeOnSVGCircleNode(gn, circle) {
     circle.setAttribute("r", "" + gn.radius);
     circle.setAttribute("cx", "" + gn.position.x);
     circle.setAttribute("cy", "" + gn.position.y);
     const darkness = 1 - asymptoticalReachOne(gn.density / 25);
-    circle.setAttribute("fill", "hsl(30, 50%, " + darkness * 50 + "%)");
+    // circle.setAttribute("fill", "hsl(30, 50%, " + darkness * 50 + "%)");
 }
 export class GravityEnvironment {
     constructor(svgElem) {
