@@ -15,16 +15,16 @@ const detailedConfig = createDetailedConfig({
         max: 0.5,
         step: 0.05
     },
-    initialDirectionDegree: 90
+    initialDirectionDegree: 90,
+    centerNodeMultiplier: 10 ** 8
 });
-
 
 addEventListener("DOMContentLoaded", () => {
     // const di = document.getElementById("debug-info");
     // if (di == null)
     //   throw new Error("could not find debug info");
 
-    createConfigInterface(detailedConfig, (name, newValue) => {
+    createConfigInterface(document.getElementsByTagName('form')[0], detailedConfig, (name, newValue) => {
         setup();
     });
 
@@ -60,7 +60,7 @@ addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        const center = new GravityNode(new Vector(width / 2, height / 2), 10, (10 ** 8) * multiplier);
+        const center = new GravityNode(new Vector(width / 2, height / 2), 10, detailedConfig.centerNodeMultiplier.value * multiplier);
         // center.lockPosition = true;
         ge.append(center);
 

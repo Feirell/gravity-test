@@ -47,11 +47,7 @@ interface ConfigChange {
     (name: string, newValue: string | number): void
 }
 
-export function createConfigInterface(config: Config, changeListener: ConfigChange) {
-    const form = document.getElementsByTagName('form')[0];
-    if (!form)
-        return;
-
+export function createConfigInterface(form: HTMLFormElement, config: Config, changeListener: ConfigChange) {
     let configEntry: keyof Config;
     for (configEntry in config) {
         const entry = config[configEntry];
