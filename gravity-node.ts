@@ -16,7 +16,8 @@ export class GravityNode {
     public radius: number = 2,
     public density: number = 1,
     public velocity = new Vector(0, 0),
-    public acceleration = new Vector(0, 0)
+    public acceleration = new Vector(0, 0),
+    public force = new Vector(0, 0)
   ) { }
 
   get mass() {
@@ -37,14 +38,27 @@ export class GravityNode {
     const G = 6.6743 ** -11;
     const radius = aToB.length();
 
-    const force = G * this.mass * inflictingNode.mass / (radius * radius);
+    const multiplier = G * this.mass * inflictingNode.mass;
+    // const force = multiplier * 100000 * ((radius - 200))
+
+    const force = multiplier / (radius * radius);
+
+    // console.log(force);
 
     return aToB
       .setLength(force);
   }
 
   public applyForce(force: Vector) {
-    this.acceleration = force.divideByN(this.mass);
+    this.force = force;
+    // const friction = force.setLength(-500000);
+
+    const forceWithFriction = force;
+    // const forceWithFriction = force.length() < friction.length() ?
+    //   new Vector(0, 0) :
+    //   friction.addVector(force);
+
+    this.acceleration = forceWithFriction.divideByN(this.mass);
   }
 
   public updateVelocity(timeDelta: number) {

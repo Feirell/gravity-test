@@ -6,9 +6,9 @@ import { Vector } from "./vector.js";
 
 const detailedConfig = createDetailedConfig({
     speedup: 1,
-    multiplier: 10 ** 5,
-    initialVelocity: 80,
-    numberOfNodes: 12,
+    multiplier: 10 ** 9,
+    initialVelocity: 0,
+    numberOfNodes: 4,
     centerDistance: {
         value: 0.4,
         min: 0.05,
@@ -16,7 +16,7 @@ const detailedConfig = createDetailedConfig({
         step: 0.05
     },
     initialDirectionDegree: 90,
-    centerNodeMultiplier: 10 ** 8
+    centerNodeMultiplier: 10 ** 2
 });
 
 addEventListener("DOMContentLoaded", () => {
@@ -34,6 +34,44 @@ addEventListener("DOMContentLoaded", () => {
     const ge = new GravityEnvironment(svg);
 
     let st: ReturnType<typeof createAnimLoop> | null = null;
+
+    let mousePositionX = 0;
+    let mousePositionY = 0;
+
+    let mouseDown = false;
+
+    document.addEventListener('mousemove', e => {
+        mousePositionX = e.layerX;
+        mousePositionY = e.layerY;
+    });
+
+    document.addEventListener('mousedown', e => {
+        if (e.button == 0) {
+            mouseDown = true;
+            mousePositionX = e.layerX;
+            mousePositionY = e.layerY;
+        }
+    })
+
+    document.addEventListener('mouseup', e => {
+        console.log(e);
+        if (e.button == 0) {
+            mouseDown = false;
+            mousePositionX = e.layerX;
+            mousePositionY = e.layerY;
+        }
+    })
+
+    const getSVGMousePosition = () => {
+        const bound = svg.getBoundingClientRect();
+        // console.clear();
+        // console.log(mousePositionX, mousePositionY, bound)
+        if (mousePositionX < bound.left || mousePositionX > bound.right || mousePositionY < bound.top || mousePositionY > bound.bottom)
+            return null;
+
+
+        return new Vector(mousePositionX - bound.left, mousePositionY - bound.top);
+    }
 
     function setup() {
         if (st)
@@ -60,9 +98,9 @@ addEventListener("DOMContentLoaded", () => {
             );
         }
 
-        const center = new GravityNode(new Vector(width / 2, height / 2), 10, detailedConfig.centerNodeMultiplier.value * multiplier);
+        // const center = new GravityNode(new Vector(width / 2, height / 2), 10, detailedConfig.centerNodeMultiplier.value * multiplier);
         // center.lockPosition = true;
-        ge.append(center);
+        // ge.append(center);
 
 
         // ge.append(new GravityNode(new Vector(20, height / 2), 10, multiplier, new Vector(0, initialVelocity)));
@@ -70,7 +108,15 @@ addEventListener("DOMContentLoaded", () => {
         // ge.append(new GravityNode(new Vector(width - 20, height / 2), 10, multiplier, new Vector(0, -initialVelocity)));
 
 
+        const cursorNode = new GravityNode(new Vector(width / 2, height / 2), 10, detailedConfig.centerNodeMultiplier.value * multiplier);
+        cursorNode.lockPosition = true;
+        ge.append(cursorNode);
         st = createAnimLoop((control, timestamp, frameDelta, startDelta) => {
+            const svgPos = getSVGMousePosition();
+            // console.log(svgPos);
+            if (svgPos)
+                cursorNode.position = svgPos;
+
             ge.updateNodes(frameDelta);
 
             // di.innerText = 'since Start:' + (startDelta | 0) + '\n' + JSON.stringify(ge.allNodes, null, 2);

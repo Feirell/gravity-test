@@ -40,12 +40,23 @@ export class GravityEnvironment {
     }
 
     append(node: GravityNode) {
+        if (this.nodes.has(node))
+            return false;
+
         this.nodes.set(node, {
             circle: this.addNewCircle(node),
             polyline: this.addNewTail(node)
         });
 
-        return this.allNodes;
+        return true;
+    }
+
+    removeNode(node: GravityNode) {
+        if (!this.nodes.has(node))
+            return false;
+
+        this.nodes.delete(node);
+        return true;
     }
 
     private addNewCircle(gravityNode: GravityNode) {
